@@ -26,11 +26,19 @@ public class ConfiguracionJDBCH2 {
 
     public ConfiguracionJDBCH2() {
         this.jdbcDriver = "org.h2.Driver";
-        this.dbUrl = "jdbc:h2:~/test;INIT=RUNSCRIPT FROM 'create.sql'";
+        this.dbUrl = "jdbc:h2:~/test;";
         this.nombreUsuario = "sa";
         this.contrasenaUsuario = "";
+        initDb();
     }
 
+    public void initDb() {
+        try (Connection connection = DriverManager.getConnection(dbUrl+"INIT=RUNSCRIPT FROM 'create.sql'", nombreUsuario, contrasenaUsuario);){
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
     public Connection conectarConBaseDeDatos() {
         Connection connection = null;
         try {

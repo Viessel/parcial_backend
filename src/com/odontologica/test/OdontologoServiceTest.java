@@ -17,7 +17,8 @@ public class OdontologoServiceTest {
 
         sujetoDePrueba.guardarOdontologo(od);
         Collection<Odontologo>  resultado = sujetoDePrueba.consultarTodosLosOdontologos();
-        Assertions.assertTrue(resultado.size() == expectedSize);
+
+        Assertions.assertEquals(resultado.size(), expectedSize);
     }
 
 

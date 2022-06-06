@@ -6,10 +6,7 @@ import com.odontologica.persistence.utils.ConfiguracionJDBCH2;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,14 +40,26 @@ public class OdontologoDaoH2 implements IDao<Odontologo> {
 
     @Override
     public boolean guardar(Odontologo odontologo) {
-        boolean rs = false;
+        boolean rs = true;
         h2.cargarElControlador();
-        try (Connection conn = h2.conectarConBaseDeDatos();
-             Statement stmt = conn.createStatement()) {
-
-            rs = stmt.execute("INSERT INTO odontologo(id, nombre, apellido, matricula) VALUES(" + odontologo.getId() + ",'"+ odontologo.getNombre() + "','"+ odontologo.getApellido() + "','"+ odontologo.getNumMatricula() + "');");
+        try ( Connection conn = h2.conectarConBaseDeDatos();
+              PreparedStatement pStmt = conn.prepareStatement("INSERT INTO odontologo(id, nombre, apellido, matricula) VALUES (?,?,?,?);")) {
+            conn.setAutoCommit(false); //no es necesario pero...
+            pStmt.setInt(1, odontologo.getId());
+            pStmt.setString(2, odontologo.getNombre());
+            pStmt.setString(3, odontologo.getApellido());
+            pStmt.setString(4, odontologo.getNumMatricula());
+            pStmt.executeUpdate();
+            conn.commit();
         } catch (SQLException e) {
-            logger.error("Error al intentar guardar odontologo" + e.getMessage());
+            logger.error("Error al intentar guardar odontologo." + e.getMessage());
+            // cual es el ambito de trys con argumentos?/
+            //try {
+            //  logger.info("Se intentara revertir la transacción.");
+            //  conn.rollback();
+            //} catch (SQLException ex) {
+            //    logger.error("La transacción no se puedo revertir" + ex.getMessage());
+            //}
         }
         return rs;
     }
