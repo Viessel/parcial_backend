@@ -24,3 +24,5 @@ Nuestro chapter lead de arquitectura nos pide:
 ## Resolución
 ### Diagrama UML
 
+![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/Viessel/parcial_backend/main/uml/diagram.uml) 
+
