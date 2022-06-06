@@ -2,7 +2,7 @@
 
 Este es el primer parcial de la materia Backend I de la carrera Certified Tech Developer.
 
-** Enunciado
+## Enunciado
 La clínica odontológica ahora nos pide que desarrollemos la posibilidad de gestionar a los odontólogos. Es decir, que el sistema permita registrar los odontólogos y listarlos.
 
 Luego del relevamiento obtuvimos la siguiente información:
