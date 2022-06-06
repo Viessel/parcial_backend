@@ -1,0 +1,36 @@
+@startuml
+!pragma layout smetana
+package "Model" {
+    class Odontologo {
+        - numeroMatricula : String
+        - nombre : String
+        - apellido : String
+    }
+}
+
+package "Persistence" {
+        interface IDAO<T> {
+                guardarOdontologo(t : <<T>>) : int
+                listarOdontologos() : List<<T>>
+        }
+    package "impl" {
+        class DaoH2<T> {
+            - jdbcH2Driver
+        }
+    }
+    DaoH2 ..|> IDAO : implements
+}
+
+package "Service" {
+       class OdontologoService {
+                - odontologoDao : DaoH2<<Odontologo>>
+                + listarTodos() : List<<Odontologo>>
+                + guardar(od : Odontologo) : int
+        }
+
+}
+package "Test" {
+        TestOdontologoService --> OdontologoService : uses
+        TestOdontologoService --> Odontologo : uses
+}
+@enduml
